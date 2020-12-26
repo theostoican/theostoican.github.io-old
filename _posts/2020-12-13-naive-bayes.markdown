@@ -5,9 +5,6 @@ date: 2020-12-13
 categories: naive-bayes nl
 ---
 
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML"></script>
-
 # Requirements
 - Deep understanding of Bayes' rule
 - Machine Learning fundamentals (Maximum Likelihood Estimation, what inference, training mean)

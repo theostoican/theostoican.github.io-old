@@ -93,19 +93,19 @@ Does this look familiar? If we have a look at the numerator, we see the similari
 Let us have a look at the numerator from the Bayes' rule corresponding equation. We can identify (<img src="https://render.githubusercontent.com/render/math?math=P(positive)">) from that equation. <img src="https://render.githubusercontent.com/render/math?math=P(positive | word\_freq_1 , word\_freq_2, ...))"> looks also similar, but not identical. What can we do to make it identical? The answer is the *Naïve Bayes assumption*. In a nutshell, we assume independence between the features given the class. To realize why it is naïve, let us walk through the following example. Assume we have the next corpus of data:
 <p style="text-align: center;">
 
-*In my opinion, the movie is not so bad.* - <span style="color:green">positive</span>
+_In my opinion, the movie is not so bad._ - <span style="color:green">positive</span>
 
 </p>
 
 <p style="text-align: center;">
 
-*In my opinion, the movie is bad.* - <span style="color:red">negative</span>
+_In my opinion, the movie is bad._ - <span style="color:red">negative</span>
 
 </p>
 
 <p style="text-align: center;">
 
-*In my opinion, the movie is quite bad.* - <span style="color:red">negative</span>
+_In my opinion, the movie is quite bad._ - <span style="color:red">negative</span>
 
 </p>
 

@@ -1,9 +1,8 @@
 ---
 layout: post
-title: Naïve Bayes
-date: {}
+title: "Naïve Bayes"
+date: 2020-12-13
 categories: naive-bayes nl
-published: true
 ---
 
 # Requirements

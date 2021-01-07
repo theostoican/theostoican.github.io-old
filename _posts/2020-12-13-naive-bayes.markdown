@@ -1,8 +1,9 @@
 ---
 layout: post
-title: "Naïve Bayes"
-date: 2020-12-13
+title: Naïve Bayes
+date: {}
 categories: naive-bayes nl
+published: true
 ---
 
 # Requirements
@@ -93,21 +94,12 @@ Does this look familiar? If we have a look at the numerator, we see the similari
 Let us have a look at the numerator from the Bayes' rule corresponding equation. We can identify (<img src="https://render.githubusercontent.com/render/math?math=P(positive)">) from that equation. <img src="https://render.githubusercontent.com/render/math?math=P(positive | word\_freq_1 , word\_freq_2, ...))"> looks also similar, but not identical. What can we do to make it identical? The answer is the *Naïve Bayes assumption*. In a nutshell, we assume independence between the features given the class. To realize why it is naïve, let us walk through the following example. Assume we have the next corpus of data:
 <p style="text-align: center;">
 
-_In my opinion, the movie is not so bad._ - <span style="color:green">positive</span>
+* _In my opinion, the movie is not so bad._ - <span style="color:green">positive</span>
 
-</p>
+* _In my opinion, the movie is bad._ - <span style="color:red">negative</span>
 
-<p style="text-align: center;">
+* _In my opinion, the movie is quite bad._ - <span style="color:red">negative</span>
 
-_In my opinion, the movie is bad._ - <span style="color:red">negative</span>
-
-</p>
-
-<p style="text-align: center;">
-
-_In my opinion, the movie is quite bad._ - <span style="color:red">negative</span>
-
-</p>
 
 If we consider the word *bad* and we compute the probability of its existence given the class, we would intuitively get: <img src="https://render.githubusercontent.com/render/math?math=P(bad|positive) = \frac{1}{3})">. However, if we consider the other features as well, we get a larger probability, i.e. <img src="https://render.githubusercontent.com/render/math?math=P(bad|positive, not, so) = 1">, which is essentially 100% chance of having the word *bad* in our document, since we have only such an example. So, as we can see, *bad* can have positive connotations given other features from the text. That's the main reason why the assumption that <img src="https://render.githubusercontent.com/render/math?math=P(bad|positive, not, so) = P(bad|positive)"> is called *naïve*.
 

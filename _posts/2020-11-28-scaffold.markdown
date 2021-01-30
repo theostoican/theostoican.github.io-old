@@ -4,13 +4,6 @@ title:  "SCAFFOLD - Stochastic Controlled Averaging for Federated Learning"
 date:   2020-11-28 15:43:57 +0100
 categories: jekyll update
 ---
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
-
-Jekyll requires blog post files to be named according to the following format:
-
-`YEAR-MONTH-DAY-title.MARKUP`
-
-Where `YEAR` is a four-digit number, `MONTH` and `DAY` are both two-digit numbers, and `MARKUP` is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.
 
 Jekyll also offers powerful support for code snippets:
 
@@ -28,3 +21,99 @@ Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most ou
 [jekyll-gh]:   https://github.com/jekyll/jekyll
 [jekyll-talk]: https://talk.jekyllrb.com/
 
+- Federated Learning detour
+- Statistical heterogeneity
+- notation
+- some gifs with animations
+- fedprox intro
+
+This is meant to be an attempt to make a paper review so that people reading this can compare their understanding with this.
+# Detour - Federated Learning
+Many fields have hard requirements in terms of how data is distributed and handled. In the medical domain, for instance, where data is extremely sensitive, data privacy is particularly important and, for this reason, medical institutions should be reluctant to share it by any means.
+
+At the same time, the medical domain could greatly benefit from the newest approaches in Machine Learning in order to improve the diagnostic capabilities of doctors (detection of malignant cells in IMR, macular degeneration, and so forth). Thus, data privacy and applied machine learning in the medical domain creates a dichotomy that brings the progress in this area at a stalemate.
+
+`Federated Learning` is meant to be a solution to this problem. In a nutshell, it changes the paradigm of training a machine learning model by bringing the model to the data, instead of bringing the data to the model.
+
+More specifically, assume that there is a server (e.g. a machine learning institution) which contains the model that we wish to train and a couple of nodes (e.g. hospitals) that contain the data required for training. Instead of gathering all the data to the server and train locally, we proceed as follows:
+- send the model from the server to the nodes
+- compute a couple of training iterations on each of the nodes
+- send back the updated models from each of the nodes back to the server
+- aggregate this models and obtain a new, better model
+- repeat
+<figure>
+    <img src="{{ site.baseurl }}/img/fedlearning.gif" alt='missing' />
+    <figcaption align="center">[1] © https://medium.com/secure-and-private-ai-writing-challenge/federated-learning-an-introduction-93bc0167f916</figcaption>
+</figure>
+The only thing missing in the steps from above is the type of aggregation that we would like to make in order to obtain the new model.
+
+# FedAvg
+One of the simplest and most commonly used algorithm in Federated Learning is Federated Averaging (FedAvg). The inner working of FedAvg is pretty straightforward. Let us have a look at [2].
+
+<figure>
+    <img src="{{ site.baseurl }}/img/fedavg.png" alt='missing' />
+    <figcaption align="center">[2] © https://proandroiddev.com/federated-learning-e79e054c33ef</figcaption>
+</figure>
+
+In a nutshell, the central server sends to the nodes the model. Each of the nodes may compute a different number of iterations based on their own computational resources (illustrated here via the usage of mobile phones or laptops). Then, the nodes send back the <img src="https://render.githubusercontent.com/render/math?math=\Delta w^i"> (the difference between the new weights computed locally and the weights initially received on node i). The model then aggregates these new weights based on the formula from below, which essentially quantifies how much contribution can each of the clients can bring, based on the number of local updates/iterations.
+
+<figure>
+    <img src="{{ site.baseurl }}/img/fedavgformula.png" alt='missing' />
+    <figcaption align="center">[3] © https://www.inovex.de/blog/federated-learning-collaborative-training-part-1/</figcaption>
+</figure>
+
+# Federated Learning - Known Issues
+
+There are 4 well-known issues with federated learning:
+<figure>
+    <img src="{{ site.baseurl }}/img/fedlearningissues.gif" alt='missing' />
+    <figcaption align="center">[3] © https://www.inovex.de/blog/federated-learning-collaborative-training-part-1/</figcaption>
+</figure>
+
+We will handle the issue of `Statistical Heterogeneity` in this post. What this means is that the distribution of data can be different on the many nodes, leading to different local optima and, hence, to the convergence to different solutions. This essentially means that:
+> Non-IID data on different clients could lead to different local optima, depending on the local distribution of the data.
+
+General things to do: paper annotations, gifs, quotes like Karpathy, code, put in a chat, dos and dont's for a blog post
+## FedAvg - Issues
+The paper, which is the main focus of this post, explores one of the limitations of `FedAvg` in the context of the aforementioned `Statistical Heterogeneity`. Before getting started, let us have a look at the notation used throughout this post as well as throughout the paper:
+
+<figure>
+    <img src="{{ site.baseurl }}/img/notation.png" alt='missing' />
+</figure>
+
+It may look like hieroglyphs for now, but don't worry. They should make sense once we reach the theoretical parts of the paper. Just keep in mind that, in case something is unclear, go back here at the notation and see what that represents.
+
+# Intuition
+The driving mechanism under any machine learning training problem is a loss function. As always, even within Federated Learning, we're trying to minimize a loss function. The loss function looks like slightly different though.
+
+To begin with, let us have a look at the local loss function (on a particular node i):
+<figure>
+    <img src="{{ site.baseurl }}/img/framework2.png" alt='missing' />
+</figure>
+
+We know that locally we have access to a batch of the data when we make a local update. That explains the expression under the *expected value* from above. Its value is dependent both on the data ''' latex f'''
+
+<figure>
+    <img src="{{ site.baseurl }}/img/framework1.png" alt='missing' />
+</figure>
+$$sasdaada$$
+
+# Math Detour
+
+
+
+- the paper which will be the recurring theme of this blog post explores the fundamental issue with fedavg in the context presented above - statistical heterogeneity 
+- notation
+## intuition of the problems
+## Math detour
+## Theoretical issues
+## Novel result Newly - new bound on FedAVg
+# SCAFFOLD
+## Intuition
+## Theoretical superiority
+## Practical superiority
+### results
+## In a nutshell..
+## Vision for the future
+## Critique on my side
+### fedprox - explanation

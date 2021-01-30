@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-12-27T09:55:09+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Theodor Stoican</title><subtitle>&quot;In God we trust. All others bring data!&quot;</subtitle><entry><title type="html">Naïve Bayes</title><link href="http://localhost:4000/naive-bayes/nl/2020/12/13/naive-bayes.html" rel="alternate" type="text/html" title="Naïve Bayes" /><published>2020-12-13T00:00:00+01:00</published><updated>2020-12-13T00:00:00+01:00</updated><id>http://localhost:4000/naive-bayes/nl/2020/12/13/naive-bayes</id><content type="html" xml:base="http://localhost:4000/naive-bayes/nl/2020/12/13/naive-bayes.html">&lt;h1 id=&quot;requirements&quot;&gt;Requirements&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-01-30T13:59:29+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Theodor Stoican</title><subtitle>&quot;In God we trust. All others bring data!&quot;</subtitle><entry><title type="html">Naïve Bayes</title><link href="http://localhost:4000/naive-bayes/nl/2020/12/13/naive-bayes.html" rel="alternate" type="text/html" title="Naïve Bayes" /><published>2020-12-13T00:00:00+01:00</published><updated>2020-12-13T00:00:00+01:00</updated><id>http://localhost:4000/naive-bayes/nl/2020/12/13/naive-bayes</id><content type="html" xml:base="http://localhost:4000/naive-bayes/nl/2020/12/13/naive-bayes.html">&lt;h1 id=&quot;requirements&quot;&gt;Requirements&lt;/h1&gt;
 &lt;ul&gt;
   &lt;li&gt;Deep understanding of Bayes’ rule&lt;/li&gt;
   &lt;li&gt;Machine Learning fundamentals (Maximum Likelihood Estimation, what inference, training mean)&lt;/li&gt;
@@ -135,15 +135,7 @@
 
 &lt;p&gt;Essentially, at this point, assume we have learned the prior &lt;img src=&quot;https://render.githubusercontent.com/render/math?math=P(positive)&quot; /&gt; and the probabilities of the features &lt;img src=&quot;https://render.githubusercontent.com/render/math?math=P(word\_freq|class)&quot; /&gt; that characterize our generative model. What we still need in order to predict the class of the text is the denominator from the equation from above &lt;img src=&quot;https://render.githubusercontent.com/render/math?math=P(word\_freq1, word\_freq2, ...)&quot; /&gt;. Since this is not normally easy to compute (we have to consider all possible combinations of all the features), we can simply drop it and consider only the numerator for the classification of the text. The consequence is that we do not have a probability distribution anymore (since we drop the denominator, which acts as a normalizing term), but the proportionality still holds, thus giving us the more likely class with the higher score.&lt;/p&gt;
 &lt;h2 id=&quot;training-1&quot;&gt;Training&lt;/h2&gt;
-&lt;p&gt;Up until now, we have seen how to actually use our model to predict the class of a certain text. The way this normally works, as in any Machine Learning setup, we first obtain these probabilities via training and then try to perform inference. In order to obtain these probabilities, we need to get the parameters of the corresponding distributions, by using the training data in order to estimate them. For getting the right parameters, we can use various approaches, among which Maximum Likelihood Estimation, Maximum a Posteriori, or full Bayesian approaches by estimating the full posterior are all suitable choices.&lt;/p&gt;</content><author><name></name></author><category term="naive-bayes" /><category term="nl" /><summary type="html">Requirements Deep understanding of Bayes’ rule Machine Learning fundamentals (Maximum Likelihood Estimation, what inference, training mean)</summary></entry><entry><title type="html">SCAFFOLD - Stochastic Controlled Averaging for Federated Learning</title><link href="http://localhost:4000/jekyll/update/2020/11/28/scaffold.html" rel="alternate" type="text/html" title="SCAFFOLD - Stochastic Controlled Averaging for Federated Learning" /><published>2020-11-28T15:43:57+01:00</published><updated>2020-11-28T15:43:57+01:00</updated><id>http://localhost:4000/jekyll/update/2020/11/28/scaffold</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2020/11/28/scaffold.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
-
-&lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR-MONTH-DAY-title.MARKUP&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR&lt;/code&gt; is a four-digit number, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MONTH&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DAY&lt;/code&gt; are both two-digit numbers, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MARKUP&lt;/code&gt; is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
-
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+&lt;p&gt;Up until now, we have seen how to actually use our model to predict the class of a certain text. The way this normally works, as in any Machine Learning setup, we first obtain these probabilities via training and then try to perform inference. In order to obtain these probabilities, we need to get the parameters of the corresponding distributions, by using the training data in order to estimate them. For getting the right parameters, we can use various approaches, among which Maximum Likelihood Estimation, Maximum a Posteriori, or full Bayesian approaches by estimating the full posterior are all suitable choices.&lt;/p&gt;</content><author><name></name></author><category term="naive-bayes" /><category term="nl" /><summary type="html">Requirements Deep understanding of Bayes’ rule Machine Learning fundamentals (Maximum Likelihood Estimation, what inference, training mean)</summary></entry><entry><title type="html">SCAFFOLD - Stochastic Controlled Averaging for Federated Learning</title><link href="http://localhost:4000/jekyll/update/2020/11/28/scaffold.html" rel="alternate" type="text/html" title="SCAFFOLD - Stochastic Controlled Averaging for Federated Learning" /><published>2020-11-28T15:43:57+01:00</published><updated>2020-11-28T15:43:57+01:00</updated><id>http://localhost:4000/jekyll/update/2020/11/28/scaffold</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2020/11/28/scaffold.html">&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
@@ -151,4 +143,108 @@
 &lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;Tom&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &apos;Hi, Tom&apos; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.</summary></entry></feed>
+&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Federated Learning detour&lt;/li&gt;
+  &lt;li&gt;Statistical heterogeneity&lt;/li&gt;
+  &lt;li&gt;notation&lt;/li&gt;
+  &lt;li&gt;some gifs with animations&lt;/li&gt;
+  &lt;li&gt;fedprox intro&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This is meant to be an attempt to make a paper review so that people reading this can compare their understanding with this.&lt;/p&gt;
+&lt;h1 id=&quot;detour---federated-learning&quot;&gt;Detour - Federated Learning&lt;/h1&gt;
+&lt;p&gt;Many fields have hard requirements in terms of how data is distributed and handled. In the medical domain, for instance, where data is extremely sensitive, data privacy is particularly important and, for this reason, medical institutions should be reluctant to share it by any means.&lt;/p&gt;
+
+&lt;p&gt;At the same time, the medical domain could greatly benefit from the newest approaches in Machine Learning in order to improve the diagnostic capabilities of doctors (detection of malignant cells in IMR, macular degeneration, and so forth). Thus, data privacy and applied machine learning in the medical domain creates a dichotomy that brings the progress in this area at a stalemate.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Federated Learning&lt;/code&gt; is meant to be a solution to this problem. In a nutshell, it changes the paradigm of training a machine learning model by bringing the model to the data, instead of bringing the data to the model.&lt;/p&gt;
+
+&lt;p&gt;More specifically, assume that there is a server (e.g. a machine learning institution) which contains the model that we wish to train and a couple of nodes (e.g. hospitals) that contain the data required for training. Instead of gathering all the data to the server and train locally, we proceed as follows:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;send the model from the server to the nodes&lt;/li&gt;
+  &lt;li&gt;compute a couple of training iterations on each of the nodes&lt;/li&gt;
+  &lt;li&gt;send back the updated models from each of the nodes back to the server&lt;/li&gt;
+  &lt;li&gt;aggregate this models and obtain a new, better model&lt;/li&gt;
+  &lt;li&gt;repeat&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure&gt;
+    &lt;img src=&quot;/img/fedlearning.gif&quot; alt=&quot;missing&quot; /&gt;
+    &lt;figcaption align=&quot;center&quot;&gt;[1] © https://medium.com/secure-and-private-ai-writing-challenge/federated-learning-an-introduction-93bc0167f916&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;The only thing missing in the steps from above is the type of aggregation that we would like to make in order to obtain the new model.&lt;/p&gt;
+
+&lt;h1 id=&quot;fedavg&quot;&gt;FedAvg&lt;/h1&gt;
+&lt;p&gt;One of the simplest and most commonly used algorithm in Federated Learning is Federated Averaging (FedAvg). The inner working of FedAvg is pretty straightforward. Let us have a look at [2].&lt;/p&gt;
+
+&lt;figure&gt;
+    &lt;img src=&quot;/img/fedavg.png&quot; alt=&quot;missing&quot; /&gt;
+    &lt;figcaption align=&quot;center&quot;&gt;[2] © https://proandroiddev.com/federated-learning-e79e054c33ef&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;In a nutshell, the central server sends to the nodes the model. Each of the nodes may compute a different number of iterations based on their own computational resources (illustrated here via the usage of mobile phones or laptops). Then, the nodes send back the &lt;img src=&quot;https://render.githubusercontent.com/render/math?math=\Delta w^i&quot; /&gt; (the difference between the new weights computed locally and the weights initially received on node i). The model then aggregates these new weights based on the formula from below, which essentially quantifies how much contribution can each of the clients can bring, based on the number of local updates/iterations.&lt;/p&gt;
+
+&lt;figure&gt;
+    &lt;img src=&quot;/img/fedavgformula.png&quot; alt=&quot;missing&quot; /&gt;
+    &lt;figcaption align=&quot;center&quot;&gt;[3] © https://www.inovex.de/blog/federated-learning-collaborative-training-part-1/&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h1 id=&quot;federated-learning---known-issues&quot;&gt;Federated Learning - Known Issues&lt;/h1&gt;
+
+&lt;p&gt;There are 4 well-known issues with federated learning:&lt;/p&gt;
+&lt;figure&gt;
+    &lt;img src=&quot;/img/fedlearningissues.gif&quot; alt=&quot;missing&quot; /&gt;
+    &lt;figcaption align=&quot;center&quot;&gt;[3] © https://www.inovex.de/blog/federated-learning-collaborative-training-part-1/&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;We will handle the issue of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Statistical Heterogeneity&lt;/code&gt; in this post. What this means is that the distribution of data can be different on the many nodes, leading to different local optima and, hence, to the convergence to different solutions. This essentially means that:&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Non-IID data on different clients could lead to different local optima, depending on the local distribution of the data.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;General things to do: paper annotations, gifs, quotes like Karpathy, code, put in a chat, dos and dont’s for a blog post&lt;/p&gt;
+&lt;h2 id=&quot;fedavg---issues&quot;&gt;FedAvg - Issues&lt;/h2&gt;
+&lt;p&gt;The paper, which is the main focus of this post, explores one of the limitations of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FedAvg&lt;/code&gt; in the context of the aforementioned &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Statistical Heterogeneity&lt;/code&gt;. Before getting started, let us have a look at the notation used throughout this post as well as throughout the paper:&lt;/p&gt;
+
+&lt;figure&gt;
+    &lt;img src=&quot;/img/notation.png&quot; alt=&quot;missing&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;It may look like hieroglyphs for now, but don’t worry. They should make sense once we reach the theoretical parts of the paper. Just keep in mind that, in case something is unclear, go back here at the notation and see what that represents.&lt;/p&gt;
+
+&lt;h1 id=&quot;intuition&quot;&gt;Intuition&lt;/h1&gt;
+&lt;p&gt;The driving mechanism under any machine learning training problem is a loss function. As always, even within Federated Learning, we’re trying to minimize a loss function. The loss function looks like slightly different though.&lt;/p&gt;
+
+&lt;p&gt;To begin with, let us have a look at the local loss function (on a particular node i):&lt;/p&gt;
+&lt;figure&gt;
+    &lt;img src=&quot;/img/framework2.png&quot; alt=&quot;missing&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;We know that locally we have access to a batch of the data when we make a local update. That explains the expression under the &lt;em&gt;expected value&lt;/em&gt; from above. Its value is dependent both on the data ‘’’ latex f’’’&lt;/p&gt;
+
+&lt;figure&gt;
+    &lt;img src=&quot;/img/framework1.png&quot; alt=&quot;missing&quot; /&gt;
+&lt;/figure&gt;
+&lt;p&gt;\(sasdaada\)&lt;/p&gt;
+
+&lt;h1 id=&quot;math-detour&quot;&gt;Math Detour&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;the paper which will be the recurring theme of this blog post explores the fundamental issue with fedavg in the context presented above - statistical heterogeneity&lt;/li&gt;
+  &lt;li&gt;notation
+    &lt;h2 id=&quot;intuition-of-the-problems&quot;&gt;intuition of the problems&lt;/h2&gt;
+    &lt;h2 id=&quot;math-detour-1&quot;&gt;Math detour&lt;/h2&gt;
+    &lt;h2 id=&quot;theoretical-issues&quot;&gt;Theoretical issues&lt;/h2&gt;
+    &lt;h2 id=&quot;novel-result-newly---new-bound-on-fedavg&quot;&gt;Novel result Newly - new bound on FedAVg&lt;/h2&gt;
+    &lt;h1 id=&quot;scaffold&quot;&gt;SCAFFOLD&lt;/h1&gt;
+    &lt;h2 id=&quot;intuition-1&quot;&gt;Intuition&lt;/h2&gt;
+    &lt;h2 id=&quot;theoretical-superiority&quot;&gt;Theoretical superiority&lt;/h2&gt;
+    &lt;h2 id=&quot;practical-superiority&quot;&gt;Practical superiority&lt;/h2&gt;
+    &lt;h3 id=&quot;results&quot;&gt;results&lt;/h3&gt;
+    &lt;h2 id=&quot;in-a-nutshell&quot;&gt;In a nutshell..&lt;/h2&gt;
+    &lt;h2 id=&quot;vision-for-the-future&quot;&gt;Vision for the future&lt;/h2&gt;
+    &lt;h2 id=&quot;critique-on-my-side&quot;&gt;Critique on my side&lt;/h2&gt;
+    &lt;h3 id=&quot;fedprox---explanation&quot;&gt;fedprox - explanation&lt;/h3&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html">Jekyll also offers powerful support for code snippets:</summary></entry></feed>

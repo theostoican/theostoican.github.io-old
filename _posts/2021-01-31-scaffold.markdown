@@ -1,0 +1,332 @@
+---
+layout: post
+title:  "SCAFFOLD - Stochastic Controlled Averaging for Federated Learning"
+date:   2021-01-31 15:43:57 +0100
+categories: jekyll update
+---
+`Reading time: 40min (after reading the paper first)`
+
+This is meant to be an attempt at a paper review for "SCAFFOLD - Stochastic Controlled Averaging for Federated Learning", published at ICML, 2020, so that whoever is reading this may compare their understanding with mine. So, any feedback, however harsh, from your side, the reader, is more than welcome :).
+
+- [Background](#background)
+  - [Detour - Federated Learning](#detour---federated-learning)
+  - [FedAvg](#fedavg)
+  - [Federated Learning - Known Issues](#federated-learning---known-issues)
+  - [FedAvg - Known Issues](#fedavg---known-issues)
+    - [Intuition](#intuition)
+- [Paper's Contributions](#papers-contributions)
+  - [Math Detour](#math-detour)
+  - [Main Theoretical Result](#main-theoretical-result)
+  - [What is to be done?](#what-is-to-be-done)
+    - [Intuition](#intuition-1)
+    - [Theoretical Superiority](#theoretical-superiority)
+    - [Practical Superiority](#practical-superiority)
+      - [Main Findings](#main-findings)
+      - [Setup](#setup)
+      - [Experiments](#experiments)
+      - [Simulated data](#simulated-data)
+      - [EMNIST](#emnist)
+      - [EMNIST (2)](#emnist-2)
+      - [EMNIST (3)](#emnist-3)
+- [Long story short...](#long-story-short)
+- [References](#references)
+
+# Background
+## Detour - Federated Learning
+Many fields have hard requirements in terms of how data is distributed and handled. In the medical domain, for instance, where data is extremely sensitive, data privacy is particularly important and, for this reason, medical institutions should be reluctant to share it by any means.
+
+At the same time, the medical domain could greatly benefit from the newest approaches in Machine Learning in order to improve the diagnostic capabilities of doctors (detection of malignant cells in IMR, macular degeneration, and so forth). Thus, data privacy and applied machine learning in the medical domain creates a dichotomy that brings the progress in this area at a stalemate.
+
+`Federated Learning` is meant to be a solution to this problem. In a nutshell, it changes the paradigm of training a machine learning model by bringing the model to the data, instead of bringing the data to the model.
+
+More specifically, assume that there is a server (e.g. a machine learning institution) which contains the model that we wish to train and a couple of nodes (e.g. hospitals) that contain the data required for training. Instead of gathering all the data to the server and train locally, the following procedure is used:
+- send the model from the server to the nodes
+- compute a couple of training iterations on each of the nodes
+- send back the updated models from each of the nodes back to the server
+- aggregate these local models and obtain a new, better model
+- repeat
+<figure>
+    <img src="{{ site.baseurl }}/img/fedlearning.gif" alt='missing' />
+    <figcaption align="center">[1] © https://medium.com/secure-and-private-ai-writing-challenge/federated-learning-an-introduction-93bc0167f916</figcaption>
+</figure>
+The only thing missing in the steps from above is the type of aggregation that we would like to make in order to obtain the new model.
+
+## FedAvg
+One of the simplest and most commonly used algorithms in Federated Learning is Federated Averaging (FedAvg). The inner working of FedAvg is pretty straightforward. Let us have a look at [2].
+
+<figure>
+    <img src="{{ site.baseurl }}/img/fedavg.png" alt='missing' />
+    <figcaption align="center">[2] © https://proandroiddev.com/federated-learning-e79e054c33ef</figcaption>
+</figure>
+
+In a nutshell, the central server sends to the nodes the model. Each of the nodes may compute a different number of iterations based on their own computational resources (illustrated here via the usage of mobile phones or laptops). Then, the nodes send back the $$ \Delta w^i $$ (the difference between the new weights computed locally and the weights initially received on node i). The model then aggregates these new weights based on the formula from [3], which essentially quantifies how much contribution each of the clients can bring, based on the number of local updates/iterations.
+
+<figure>
+    <img src="{{ site.baseurl }}/img/fedavgformula.png" alt='missing' />
+    <figcaption align="center">[3] © https://www.inovex.de/blog/federated-learning-collaborative-training-part-1/</figcaption>
+</figure>
+
+## Federated Learning - Known Issues
+
+There are 4 well-known issues with federated learning:
+<figure>
+    <img src="{{ site.baseurl }}/img/fedlearningissues.gif" alt='missing' />
+</figure>
+
+We will handle the issue of `Statistical Heterogeneity` in this post. What this means is that the distribution of data can be different on the many nodes, leading to different local optima and, hence, to the convergence to different solutions. This essentially means that:
+> Non-IID data on different clients could lead to different local optima, depending on the local distribution of the data.
+
+## FedAvg - Known Issues
+The current paper explores one of the limitations of `FedAvg` in the context of the aforementioned `Statistical Heterogeneity`. Before getting started, let us have a look at the notation used throughout this post as well as throughout the paper:
+
+<figure>
+    <img src="{{ site.baseurl }}/img/notation.png" alt='missing' />
+</figure>
+
+It may look like hieroglyphs for now, but don't worry. They should make sense once we reach the theoretical parts of the paper. Just keep in mind that, in case something (a letter) is unclear, go back here at the notation and see what that represents.
+
+### Intuition
+The driving mechanism under any machine learning training problem is a loss function. As always, Federated Learning included, we're trying to minimize a loss function. The loss function looks like slightly different though.
+
+To begin with, let us have a look at the local loss function (on a particular node i):
+<figure>
+    <img src="{{ site.baseurl }}/img/framework2.png" alt='missing' />
+</figure>
+
+We know that locally we have access to a batch of the data when we make a local update. That explains the expression under the *expected value* from above. Its value is dependent both on the data as well as on a random factor corresponding to the likelihood of one batch. We consider, as the local loss, the mean (expected value) across all the losses formed from such batches, since across many iterations, this losses begin to level off around the value of the mean.
+
+However, this is not all. The local losses must be integrated into one, global loss that we're minimizing.
+
+<figure>
+    <img src="{{ site.baseurl }}/img/framework1.png" alt='missing' />
+</figure>
+
+The minimizer of the global loss, is the one $$ x^* $$ that, once plugged in, generates the minimum across the average of all the local losses (weighted or not).
+
+Now, based on what we discussed previously(the data on different nodes can be `non-iid`), we can have different minimizers for the local cost functions $$ f_i(x) $$. Having different minimizers will lead to gradients pointing to different directions and will hurt convergence (potentially leading to divergence), as shown in the next picture.
+
+<figure>
+    <img src="{{ site.baseurl }}/img/clientdrift.png" alt='missing' />
+</figure>
+
+More formally, the client drift can be expressed mathematically as follows:
+
+<figure>
+    <img src="{{ site.baseurl }}/img/clientdrift2.png" alt='missing' />
+    <figcaption align="center">Cause of the client drift</figcaption>
+</figure>
+
+In the next paragraphs, we will explore this limitation of FedAvg from a more theoretical perspective, by introducing a novel bound on the convergence of the algorithm.
+
+`Disclaimer`: What follows is pretty heavy math so make sure you have a look at the paper and the auxiliary materials for proofs in a detailed manner.
+
+# Paper's Contributions
+## Math Detour
+
+Before we delve into the the theoretical results, let us make a recap of the mathematical notions involved.
+
+- $$\beta$$-smooth functions
+
+Formally:
+<figure>
+    <img src="{{ site.baseurl }}/img/betasmooth.png" alt='missing' />
+</figure>
+
+Intuitively:
+- we do not want the gradients to change suddenly, we want the change to be smooth
+  
+## Main Theoretical Result
+Based on the notion presented above, the paper introduces a novel convergence rate for FedAvg. Basically, assuming that:
+- For the following functions:
+  - $$f$$ is bounded by $$f^*$$
+  - each $$ f_i $$ is $$ \beta $$-smooth
+  - $$g_i(x) = \nabla f_i(x;\xi)$$ is an unbiased estimate for the gradient of $$f_i$$ with the variance bounded by $$\sigma^2$$
+- the next assumption holds:
+  - $$(A1)$$ BGD (Bounded Gradient Dissimilarity): $$\exists G \ge 0$$ and $$B \ge 1$$ s.t.:
+    - $$\frac{1}{N} \Sigma_{i=1}^{N} \|\nabla f_i(x) \|^2 \le G^2 + B^2 \|\nabla f(x)\|^2$$, $$\forall x$$ - the intuition behind this being that we want the averaged gradient's possible drift to be bounded (instead of going arbitrarily far away)
+- (basically what these conditions say is that we want smooth changes within the gradients of a local function, close to the ones from the global function on average)
+- then:
+  - the first theorem follows: <figure>
+    <img src="{{ site.baseurl }}/img/maintheorem.png" alt='missing' /></figure>
+
+This result is novel in literature and exposes a new bound on the convergence of FedAvg. The math is quite symbolic :), so let us have a look at a particular case of this theorem in order to better understand it.
+
+In the $$ i.i.d. $$ data case, meaning $$ G=0 $$ and $$ B=1 $$ (from $$ A1 $$), for the strongly convex case, the convergence rate becomes (by cancelling the 2 terms in the middle due to G = 0):
+
+$$R = O(\frac{\sigma^2}{\mu S K \epsilon} + \frac{1}{\mu})$$
+
+Previously, the best known limit was reported to be ([Stich & Karimireddy (2019)](https://arxiv.org/abs/1809.07599)):
+
+$$R = O(\frac{\sigma^2}{\mu S K \epsilon} + \frac{S}{\mu})$$
+
+The main improvement for the above result comes from the usage of different learning rates for the nodes ($$\eta_l$$) and the server($$\eta_g$$) in FedAvg. Moreover, the authors prove that the theorem is nearly optimal, by providing a lower bound for the effect of client drift (in non-scientific terms, this means that FedAvg will be, in all cases, slowed down by this lower bound at least).
+
+$$f(x^r) - f(x^*) \ge \Omega(\frac{G^2}{\mu R^2})$$
+
+In the above, $$ x^r $$- the minimizer after $$ r $$ rounds and $$ x^* $$ - global minimizer. Now, this shows that the client drift is exactly determined by the dissimilarity parameter $$ G $$ (in $$ A1 $$). What this says, is that the $$ \frac{G}{\sqrt{\epsilon}} $$ factor is unavoidable even if there is no stochasticity. Moreover, because of the usage of stochastic gradients, we also have the statistical lower bound of $$ \frac{\sigma ^ 2}{\mu K N \epsilon} $$. Together, these show that the rate of convergence derived above is `nearly optimal`.
+
+
+
+## What is to be done?
+
+Simply put, the answer proposed by the paper is SCAFFOLD (Stochastic Controlled Averaging for Federated Learning).
+
+### Intuition
+
+The client drift is the *Pandora's box*. So, the main idea is to find a way to mitigate it. One way to go about it is to subtract `something` from the local updates. However, what can we subtract? The answer is something that quantifies the drift on the local clients. In a nutshell, we can quantify this drift at one iteration by analyzing the gradients on the local nodes and comparing it with the average gradient.
+
+What would this drift be, then? Well, we can represent it as $$ c - c_i $$, where $$ c $$ - the average gradient across the clients, and $$ c_i $$ - the local gradient on client $$ i $$. So, essentially, what will happen, is that the algorithm will be, in a sense, a FedAvg adapted in this way:
+
+$$ y_i \leftarrow y_i + \eta_l(g_i(y_i) + c - c_i) $$
+
+We can see that the update expression is essentially identical to the one from FedAvg - $$ g_i(y_i) $$ represent the gradient on node $$ i $$ - except for the client drift approximation $$ c - c_i $$.
+
+Now, having said this, how do we actually compute $$ c $$, $$ c_i $$ ? 
+- $$ c $$ is updated dynamically based on the changes that the gradients suffer:
+
+$$ c \leftarrow c + \frac{1}{N} \Sigma_{i \in S} (c_i^+ - c_i )$$
+
+- $$ c_i^+ $$ represents the new local gradient, $$ c_i $$ the old local gradient and $$ c $$ the old c
+- Initially $$ c = 0 $$ and $$ c_i = 0 $$
+  
+However, during the course of the algorithm, these values will evolve and lead to new values on each round. One thing you may ask is why we don't just take the average of the local gradients at the current step? The answer is related to the fact that $$ c $$ is meant to approximate the global gradient (i.e. the gradient normally computed in a non-federated setting). In order to do that, we want an approximation that is quite robust and not terribly sensitive to local changes at the current iteration. This is the reason why the old value of $$ c $$ is taken into account.
+
+So far, so good. We have one more thing to compute: $$ c_i^+ $$. The authors propose 2 options to update this parameter:
+1. $$ c_i^+ = g_i(x) $$, where $$ g_i(x) $$ is the local gradient on node i
+2. $$ c_i^+ = c_i - c + \frac{1}{K \eta_l}(x - y_i) $$, where $$ K $$ - number of local updates, $$ x $$ - the weights of the central model, $$ y_i $$ - the weights of the local model
+
+The authors use in their experiments Option 2, since it is cheaper to compute (Option 1 requires an additional run over the local data in order to compute the gradient).
+
+In a nutshell, what is going to happen goes as follows:
+
+{% highlight python %}
+def scaffold_server():
+  c = 0
+  initialize_model(x)
+  // for each round
+  for k in K:
+    for each client:
+      y, c_i = scaffold_client(x, c)
+    update_global_model()
+    update_c()
+
+def scaffold_client(x, c):
+  c_i = 0
+  for i in num_updates:
+    data = get_batch()
+    gradients = compute_gradients(data)
+    y = update_model(x, gradients)
+  update_c_i()
+
+  return y, c_i
+{% endhighlight %}
+
+The effects of SCAFFOLD can be visually described as:
+
+<figure>
+    <img src="{{ site.baseurl }}/img/scaffoldeffect.png" alt='missing' />
+</figure>
+
+### Theoretical Superiority
+
+2 theorems are given in the paper that showcase the superiority of this algorithm over FedAvg.
+
+<figure>
+    <img src="{{ site.baseurl }}/img/theorem3.png" alt='missing' />
+</figure>
+
+To understand this theorem, let us consider $$ S=N $$. Then, what we'll have is $$ R = O(\frac{\sigma^2}{\mu N K \epsilon} + \frac{1}{\mu}) $$, which is a convergence rate that holds for arbitrarily heterogenous clients and is `at least as fast as SGD with a batch size K times larger`.
+
+Before we delve into the next theorem, we need to consider the following assumption:
+ - $$(A2)$$ $$\delta-BHD$$ (Bounded Hessian Dissimilarity): $$\|\nabla^2f_i(x) - \nabla^2f(x)\| \le \delta$$, $$\forall x$$
+   - *the intuition* being that the rates of change of the local loss function's gradients and of the global loss function's gradients - that is what the second derivative is, i.e. the rate of change of the gradients - should be similar (bounded by $$\delta$$)
+
+The next theorem will use this assumption in its formulation.
+<figure>
+    <img src="{{ site.baseurl }}/img/theorem4.png" alt='missing' />
+</figure>
+
+As before, to understand this theorem, let us consider $$ \sigma = 0 $$ and $$ K \gt\gt $$. What we'll have is $$ R = O(\frac{\delta}{\mu}) $$. `This is a novel result in literature, proving improvement due to similarity for non-convex functions. Additionally, this makes it faster than SGD for similar functions`.
+
+### Practical Superiority
+#### Main Findings
+- SCAFFOLD outperforms SGD consistently
+- SCAFFOLD outperforms FedAvg
+
+#### Setup
+- `Client sampling`: various samplings of the clients are used, specified for each experiment
+- `Models`: quadratic functions, logistic regression, 2-layer fully connected neural network
+- `Datasets`: simulated data, EMNIST
+- `Learning rates`: $$ \eta_g=1 $$, $$ \eta_l $$ - fine-tuned
+- `FedProx specific`: $$ \mu=1 $$
+
+#### Experiments
+
+#### Simulated data
+
+The first experiment is made on top of simulated data, using quadratic functions, full-batch training, and $$ N=2 $$ clients.
+<figure>
+    <img src="{{ site.baseurl }}/img/experiment1.png" alt='missing' />
+    <figcaption align="center">© Karimireddy et al., ICML, 2020. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning</figcaption>
+</figure>
+
+Relevant points to note:
+- The first three charts from left to right represent a comparison between FedAvg and SGD. The next three between SGD and SCAFFOLD, with a varying number of local updates $$ K $$.
+
+- In the first 3 charts we can see that SGD is roughly immune to the gradient dissimilarity parameter, G, whereas FedAVG is particularly affected. The more local updates are used, the more affected it is.
+
+- In the next 3 charts we can see that SCAFFOLD is also immune to the gradient dissimilarity parameter, G, and the more local updates it uses, the faster it is. Moreover, it is faster than SGD in every situation.
+
+#### EMNIST
+
+In this experiment, the authors switch to a real dataset by using a more popular model: logistic regression - up to 0.5 test accuracy -. There is also some client sampling this time, fixed local steps, $$ K=5 $$, and a fixed batch size of $$ 0.2 $$. Besides, they use another algorithm presented in literature called FedProx, which is left with the default parameter $$ \mu = 1 $$.
+
+<figure>
+    <img src="{{ site.baseurl }}/img/experiment2.png" alt='missing' />
+    <figcaption align="center">© Karimireddy et al., ICML, 2020. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning</figcaption>
+
+</figure>
+
+Relevant points to note:
+- SGD's performance is again quite stable, regardless of similarity.
+- SCAFFOLD's performance decreases with both the number of epochs on normal clients and the dissimilarity. Still, with a roughly small number of epochs, its performance is almost independent on the similarity factor. It is also the best model among the ones exposed.
+- FedAvg is quite affected by dissimilarity and for large numbers of epochs locally, it doesn't converge (symbolized by the right-pointing black arrow for those entries).
+- FedProx reaches convergence only for the i.i.d. data (no dissimilarity), making it the least performing model with the current configuration - $$ \mu = 1 $$ -.
+
+#### EMNIST (2)
+What's missing in the above experiment is the relationship to client sampling. So, authors provide the following chart examining the variation of this hyperparameter. As before, they train on EMNIST logistic regression up to $$ 0.45 $$ test accuracy with $$ K=25 $$ local steps.
+
+<figure>
+    <img src="{{ site.baseurl }}/img/emnist2.png" alt='missing' />
+    <figcaption align="center">© Karimireddy et al., ICML, 2020. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning</figcaption>
+</figure>
+
+Relevant points to note:
+- Both show resilience to client sampling
+- SCAFFOLD is consistenly faster than FedAvg
+
+#### EMNIST (3)
+Last but not least, in this experiment, the authors evaluate a 2-layer fully connected neural network on EMNIST, with $$ K=25 $$ local updates. The percentage of clients sampled is $$ S=20% $$.
+
+<figure>
+    <img src="{{ site.baseurl }}/img/emnist3.png" alt='missing' />
+    <figcaption align="center">© Karimireddy et al., ICML, 2020. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning</figcaption>
+</figure>
+
+Relevant points to note:
+- SCAFFOLD outperforms both FedAvg and SGD
+- With client similarity, both FedAvg and SCAFFOLD get better
+
+# Long story short...
+- There are severe theoretical limitations to FedAvg due to client drift.
+- SCAFFOLD is proposed to overcome these limitations.
+- Strong convergence guarantees are proved, as well as successful empirical evaluations
+- Hope you've enjoyed :)
+
+# References
+
+[1] Karimireddy, Sai Praneeth, et al. "SCAFFOLD: Stochastic controlled averaging for federated learning." International Conference on Machine Learning. PMLR, 2020.
+
+[2] Stich, et al. "Sparsified SGD with memory." arXiv preprint arXiv:1809.07599 (2018).
+
+[3] Li, Tian, et al. "Federated optimization in heterogeneous networks." arXiv preprint arXiv:1812.06127 (2018).

@@ -28,6 +28,8 @@ In order to use a Machine Learning model, one should obtain some features based 
     <figcaption align="center">© https://web.stanford.edu/~jurafsky/slp3/</figcaption>
 </figure>
 
+<iframe src="https://docs.google.com/document/d/e/2PACX-1vQAaiFNwNGbmDTYUsbjag8NmSLa-go50XxuCsLPTtaXwkVVy0z8ecvX3kq_x8FjB2BgpzIfBMHarRss/pub?embedded=true"></iframe>
+
 # Model
 
 The next thing one should consider is what kind of modeling we can do now. Remember, our main goal is to classify this text (we'll keep it rather generic in this text and we consider classifications of any type - although, you can think of sentiment analysis as a particular example - we want to predict what sentiment the author had when writing the specific text/review/tweet/etc.). Intuitively, one way to model this problem and to put it into a Machine Learning framework is to assign a probability distribution to the class, given the text:

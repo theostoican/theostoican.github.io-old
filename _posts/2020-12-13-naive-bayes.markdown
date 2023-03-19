@@ -38,6 +38,7 @@ The next thing one should consider is what kind of modeling we can do now. Remem
 ">
 </div>
 
+
 <div align="center">
 
 <img src="https://render.githubusercontent.com/render/math?math=P(negative | text) = 1 - <some\_prob>
